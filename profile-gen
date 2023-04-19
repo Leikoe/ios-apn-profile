@@ -5,7 +5,7 @@ print("IOS - apn profile generator")
 apn = input("Access Point (APN) [apn.example.com]:\n   ") or "apn.example.com"
 
 username = input("Authentication ID (user name) [user@example]:\n   ") or "user@example"
-password = input("Password [1234]:\n") or "1234"
+password = input("Password [1234]:\n   ") or "1234"
 auth_type = input("Authentication type [CHAP] or PAP:\n   ") or "CHAP"
 
 config = f"""
