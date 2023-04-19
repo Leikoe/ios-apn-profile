@@ -1,0 +1,88 @@
+#! /usr/bin/python3
+
+print("IOS - apn profile generator")
+
+apn = input("Access Point (APN) [apn.example.com]:\n   ") or "apn.example.com"
+
+username = input("Authentication ID (user name) [user@example]:\n   ") or "user@example"
+password = input("Password [1234]:\n") or "1234"
+auth_type = input("Authentication type [CHAP] or PAP:\n   ") or "CHAP"
+
+config = f"""
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>ConsentText</key>
+		<dict>
+			<key>default</key>
+			<string>This is a custom apn profile, don't install unless you know exactly what you're doing</string>
+		</dict>
+		<key>PayloadContent</key>
+		<array>
+			<dict>
+				<key>AttachAPN</key>
+				<dict>
+					<key>Name</key>
+					<string>{apn}</string>
+					<key>AuthenticationType</key>
+					<string>{auth_type}</string>
+					<key>Username</key>
+					<string>{username}</string>
+					<key>Password</key>
+					<string>{password}</string>
+				</dict>
+				<key>APNs</key>
+				<array>
+					<dict>
+						<key>Name</key>
+						<string>{apn}</string>
+						<key>AuthenticationType</key>
+						<string>{auth_type}</string>
+						<key>Username</key>
+						<string>{username}</string>
+						<key>Password</key>
+						<string>{password}</string>
+					</dict>
+				</array>
+				<key>PayloadDescription</key>
+				<string>a custom ios apn profile - generated using github.com/Leikoe/ios-apn-profile</string>
+				<key>PayloadDisplayName</key>
+				<string>Custom APN</string>
+				<key>PayloadIdentifier</key>
+				<string>github.com/Leikoe/ios-apn-profile</string>
+				<key>PayloadOrganization</key>
+				<string>github.com/Leikoe/ios-apn-profile</string>
+				<key>PayloadType</key>
+				<string>com.apple.cellular</string>
+				<key>PayloadUUID</key>
+				<string>02C73060-D5F2-4908-AAB0-F9F453B7AF1E</string>
+				<key>PayloadVersion</key>
+				<integer>1</integer>
+			</dict>
+		</array>
+		<key>PayloadDescription</key>
+		<string>a custom ios apn profile - generated using github.com/Leikoe/ios-apn-profile</string>
+		<key>PayloadDisplayName</key>
+		<string>Custom APN</string>
+		<key>PayloadIdentifier</key>
+		<string>github.com/Leikoe/ios-apn-profile</string>
+		<key>PayloadOrganization</key>
+		<string>github.com/Leikoe/ios-apn-profile</string>
+		<key>PayloadType</key>
+		<string>Configuration</string>
+		<key>PayloadUUID</key>
+		<string>46A6B27F-2D3D-41E4-A769-D1CD51342114</string>
+		<key>PayloadVersion</key>
+		<integer>1</integer>
+	</dict>
+</plist>
+"""
+
+OUTFILE = "custom-profile.mobileconfig"
+
+print(f"written to {OUTFILE}")
+
+config_file = open(OUTFILE, "w")
+n = config_file.write(config)
+config_file.close()
